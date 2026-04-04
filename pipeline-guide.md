@@ -1,3 +1,4 @@
+# From Claude
 # CS6140 Final Project — Divide & Conquer Summarization Pipeline Guide
 
 ## 1. Motivation

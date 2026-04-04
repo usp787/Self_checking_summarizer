@@ -1,3 +1,4 @@
+# From GPT
 # CS6140 Final Project — Divide-and-Conquer Direction for Long-Document Summarization
 
 ## Goal of this note
