@@ -1,0 +1,8 @@
+torch
+transformers
+bitsandbytes>=0.46.1
+datasets
+rouge-score
+bert-score
+pandas
+ipykernel
