@@ -12,7 +12,7 @@ The baseline notebook (Qwen2.5-7B-Instruct, 4-bit, T4 GPU) reveals two core prob
 | ROUGE-L F1 | 0.171 | Short generations (~294 words) vs references (~575 words) |
 | BERTScore F1 | 0.078 | Semantic coverage is marginal |
 
-GovReport documents average ~15,000+ tokens. Feeding the full document into a single LLM call is infeasible on a T4 with a 7B model. **Divide-and-conquer** solves this by decomposing the problem into smaller, GPU-friendly sub-tasks.
+[(GovReport)](https://huggingface.co/datasets/ccdv/govreport-summarization) documents average ~15,000+ tokens. Feeding the full document into a single LLM call is infeasible on a T4 with a 7B model. **Divide-and-conquer** solves this by decomposing the problem into smaller, GPU-friendly sub-tasks.
 
 ---
 
