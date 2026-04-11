@@ -43,7 +43,8 @@ source activate /scratch/$USER/6140_env
 cd /home/xu.x1/6140/Self_checking_summarizer/
 # my home contains this git repo
 git pull
-python CS6140_inference_verification.py
+jupyter nbconvert --to python CS6140_final_baseline.ipynb 
+python CS6140_final_baseline.py
 ```
 
 ## Rebuild /scratch/$USER/6140_env if you need to
