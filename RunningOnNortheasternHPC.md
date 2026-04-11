@@ -62,8 +62,9 @@ source activate /scratch/$USER/6140_env
 # 6. Reinstall exactly what the HPC needs for GPU acceleration (PyTorch 2.5 on CUDA 12.1)
 pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# 7. Reinstall remaining LLM libraries
-pip install transformers accelerate bitsandbytes jupyter nbconvert
+# 7. Install project dependencies from requirements.txt (single source of truth)
+cd /home/xu.x1/6140/Self_checking_summarizer/
+pip install -r requirements.txt
 
 # 8. Run your script! (It will re-download the model weights automatically)
 cd /home/xu.x1/6140/Self_checking_summarizer/
