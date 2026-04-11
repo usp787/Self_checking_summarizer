@@ -1,0 +1,16 @@
+{
+  "run_tag": "smoke_test_qwen25_7b_a100",
+  "timestamp": "2026-04-11T03:21:15.681831+00:00",
+  "num_samples": 5,
+  "max_input_tokens": 16000,
+  "max_new_tokens": 950,
+  "temperature": 0.3,
+  "rouge1_f1_mean": 0.55838,
+  "rouge2_f1_mean": 0.25004,
+  "rougeL_f1_mean": 0.25129999999999997,
+  "gen_length_mean": 413.4,
+  "ref_length_mean": 574.6,
+  "bertscore_precision_mean": 0.08036257326602936,
+  "bertscore_recall_mean": 0.17762884497642517,
+  "bertscore_f1_mean": 0.1298305243253708
+}

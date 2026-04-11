@@ -1,0 +1,16 @@
+{
+  "run_tag": "baseline_qwen25_7b_a100_100samples_faithful",
+  "timestamp": "2026-04-11T04:52:40.031308+00:00",
+  "num_samples": 100,
+  "max_input_tokens": 16000,
+  "max_new_tokens": 950,
+  "temperature": 0.3,
+  "rouge1_f1_mean": 0.49449000000000004,
+  "rouge2_f1_mean": 0.18181500000000003,
+  "rougeL_f1_mean": 0.21357899999999996,
+  "gen_length_mean": 374.54,
+  "ref_length_mean": 587.83,
+  "bertscore_precision_mean": 0.041502028703689575,
+  "bertscore_recall_mean": 0.11134281009435654,
+  "bertscore_f1_mean": 0.07743261009454727
+}

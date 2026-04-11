@@ -1,0 +1,301 @@
+sample_id,rouge1_f1,rouge2_f1,rougeL_f1,faithfulness,gen_length,ref_length
+0,0.6016,0.2389,0.2565,"Unfaithful.
+
+The summary omits several key details",379,500
+1,0.5897,0.3028,0.3223,"Faithful
+
+The summary accurately captures the key ",388,680
+2,0.4746,0.1846,0.2196,"Faithful
+
+The summary accurately captures the main",278,553
+3,0.5,0.1546,0.1893,"Faithful
+
+The summary accurately captures the key ",319,523
+4,0.6224,0.2746,0.2414,"Faithful
+
+The summary accurately captures the key ",531,617
+5,0.4757,0.1679,0.2039,"Faithful
+
+The summary accurately captures the key ",266,540
+6,0.4996,0.1917,0.1964,"Faithful
+
+The summary accurately captures the key ",453,706
+7,0.4244,0.1865,0.1849,"Faithful
+
+The summary accurately captures the key ",411,972
+8,0.5363,0.2206,0.2158,"Faithful
+
+The summary accurately captures the key ",438,480
+9,0.6053,0.2319,0.2176,"Faithful
+
+The summary accurately captures the key ",495,517
+10,0.4612,0.1917,0.2274,"Faithful
+
+The summary accurately captures the key ",296,627
+11,0.5491,0.1986,0.2319,"Faithful
+
+The summary accurately captures the main",426,562
+12,0.4897,0.1443,0.1728,"Unfaithful.
+
+The summary contains several inaccura",430,536
+13,0.5235,0.1992,0.2045,"Faithful
+
+The summary accurately captures the key ",456,600
+14,0.4698,0.1803,0.2116,"Faithful
+
+The summary accurately captures the key ",379,553
+15,0.5154,0.2296,0.2387,"Faithful
+
+The summary accurately captures the key ",439,748
+16,0.606,0.2848,0.2713,"Faithful
+
+The summary accurately captures the key ",521,698
+17,0.5463,0.2509,0.2599,"Faithful
+
+The summary accurately captures the key ",335,477
+18,0.5159,0.1765,0.1998,"Faithful
+
+The summary accurately captures the key ",459,639
+19,0.5115,0.1958,0.2437,"Faithful
+
+The summary accurately captures the main",336,546
+20,0.5146,0.2051,0.2008,"Faithful
+
+The summary accurately captures the key ",486,544
+21,0.4358,0.1474,0.1937,"Faithful
+
+The summary accurately captures the key ",369,672
+22,0.4989,0.1622,0.2084,"Faithful
+
+The summary accurately captures the key ",341,562
+23,0.287,0.1197,0.121,"Faithful
+
+The summary accurately captures the main",227,1019
+24,0.4633,0.154,0.1785,"Faithful
+
+The summary accurately captures the key ",317,550
+25,0.5147,0.1548,0.2034,"Faithful
+
+The summary accurately captures the main",342,475
+26,0.4529,0.1294,0.1862,"Faithful
+
+The summary accurately captures the key ",442,514
+27,0.5014,0.1544,0.1838,"Faithful
+
+The summary accurately captures the key ",526,524
+28,0.5475,0.1653,0.2131,"Faithful
+
+The summary accurately captures the key ",410,461
+29,0.5333,0.1932,0.1969,"Faithful
+
+The summary accurately captures the key ",438,561
+30,0.4836,0.1585,0.2169,"Faithful
+
+The summary accurately captures the key ",420,679
+31,0.446,0.1658,0.1937,"Faithful
+
+The summary accurately captures the main",320,651
+32,0.4247,0.1325,0.1885,"Faithful
+
+The summary accurately captures the main",310,603
+33,0.4731,0.1972,0.2365,"Faithful
+
+The summary accurately captures the key ",269,537
+34,0.5389,0.1869,0.2193,"Faithful
+
+The summary accurately captures the key ",445,539
+35,0.5116,0.1878,0.2,"Faithful
+
+The summary accurately captures the key ",387,538
+36,0.5239,0.2349,0.3297,"Faithful
+
+The summary accurately captures the main",346,291
+37,0.5757,0.2178,0.2382,"Faithful
+
+The summary accurately captures the key ",351,499
+38,0.5286,0.184,0.1968,"Faithful
+
+The summary accurately captures the key ",496,567
+39,0.541,0.2348,0.2471,"Faithful
+
+The summary accurately captures the main",357,549
+40,0.4653,0.1456,0.2042,"Faithful
+
+The summary accurately captures the key ",379,550
+41,0.4612,0.1396,0.1825,"Faithful
+
+The summary accurately captures the key ",376,630
+42,0.5132,0.1728,0.215,"Faithful
+
+The summary accurately captures the main",448,537
+43,0.4813,0.2182,0.2346,"Faithful
+
+The summary accurately captures the key ",268,516
+44,0.4436,0.1425,0.1912,"Faithful
+
+The summary accurately captures the main",287,518
+45,0.467,0.1704,0.2136,"Faithful
+
+The summary accurately captures the key ",434,640
+46,0.5355,0.2244,0.224,"Faithful
+
+The summary accurately reflects the key ",407,602
+47,0.4553,0.172,0.2312,"Faithful
+
+The summary accurately captures the key ",286,530
+48,0.4953,0.1576,0.216,"Faithful
+
+The summary accurately captures the key ",300,521
+49,0.5062,0.2519,0.2731,"Faithful
+
+The summary accurately captures the main",411,784
+50,0.4383,0.1748,0.1766,"Faithful
+
+The summary accurately captures the main",317,586
+51,0.5681,0.2285,0.2396,"Faithful
+
+The summary accurately captures the key ",446,592
+52,0.524,0.1313,0.1965,"Faithful
+
+The summary accurately captures the main",394,505
+53,0.5411,0.1954,0.2256,"Faithful
+
+The summary accurately captures the key ",387,508
+54,0.5304,0.2082,0.2188,"Faithful
+
+The summary accurately captures the key ",436,468
+55,0.5257,0.2443,0.2565,"Faithful
+
+The summary accurately captures the key ",377,712
+56,0.4356,0.1525,0.1959,"Faithful
+
+The summary accurately captures the main",273,493
+57,0.4591,0.1542,0.2308,"Faithful
+
+The summary accurately captures the key ",242,526
+58,0.5682,0.2228,0.2449,"Faithful
+
+The summary accurately captures the key ",436,619
+59,0.5165,0.1677,0.1901,"Faithful
+
+The summary accurately captures the main",336,591
+60,0.503,0.1697,0.2288,"Faithful
+
+The summary accurately captures the key ",345,474
+61,0.5075,0.1682,0.2018,"Faithful
+
+The summary accurately captures the key ",450,536
+62,0.427,0.1419,0.2017,"Faithful
+
+The summary accurately captures the main",279,635
+63,0.5404,0.1924,0.2071,"Faithful
+
+The summary accurately captures the key ",332,453
+64,0.5131,0.1816,0.2009,"Faithful
+
+The summary accurately captures the main",365,543
+65,0.5386,0.2445,0.2532,"Faithful
+
+The summary accurately captures the main",279,557
+66,0.5,0.1355,0.1824,"Faithful
+
+The summary accurately captures the key ",383,576
+67,0.5827,0.198,0.2218,"Faithful
+
+The summary accurately captures the key ",509,490
+68,0.4334,0.1654,0.2008,"Faithful
+
+The summary accurately captures the key ",343,723
+69,0.5116,0.1689,0.1996,"Faithful
+
+The summary accurately captures the key ",404,598
+70,0.476,0.1974,0.2204,"Faithful
+
+The summary accurately captures the key ",314,519
+71,0.5283,0.2659,0.3022,"Faithful
+
+The summary accurately captures the key ",378,473
+72,0.3848,0.1292,0.1763,"Faithful
+
+The summary accurately captures the key ",316,735
+73,0.5,0.173,0.2289,"Faithful
+
+The summary accurately captures the key ",322,656
+74,0.4859,0.1699,0.2192,"Faithful
+
+The summary accurately captures the key ",339,527
+75,0.3917,0.0916,0.1676,"Faithful
+
+The summary accurately captures the key ",283,623
+76,0.5241,0.1912,0.2138,"Faithful
+
+The summary accurately captures the key ",370,572
+77,0.5064,0.149,0.2067,"Faithful
+
+The summary accurately captures the key ",355,479
+78,0.4959,0.1905,0.2341,"Faithful
+
+The summary accurately captures the key ",291,552
+79,0.5,0.1547,0.2028,"Faithful
+
+The summary accurately captures the key ",348,520
+80,0.4727,0.1587,0.2118,"Faithful
+
+The summary accurately captures the key ",398,496
+81,0.5425,0.1837,0.2136,"Faithful
+
+The summary accurately captures the key ",482,561
+82,0.4215,0.1338,0.1616,"Faithful
+
+The summary accurately captures the key ",274,532
+83,0.457,0.1839,0.2426,"Faithful
+
+The summary accurately captures the key ",218,480
+84,0.41,0.1665,0.1762,"Faithful
+
+The summary accurately captures the key ",449,1125
+85,0.3964,0.1212,0.1484,"Faithful
+
+The summary accurately captures the key ",465,1203
+86,0.5652,0.2803,0.3178,"Faithful
+
+The summary accurately captures the key ",363,664
+87,0.4872,0.201,0.2661,"Faithful
+
+The summary accurately captures the key ",314,643
+88,0.4584,0.1669,0.203,"Faithful
+
+The summary accurately captures the main",281,583
+89,0.3909,0.132,0.1771,"Faithful
+
+The summary accurately captures the key ",338,577
+90,0.4623,0.1816,0.2037,"Faithful
+
+The summary accurately captures the key ",344,600
+91,0.4016,0.1395,0.1717,"Faithful
+
+The summary accurately captures the key ",376,849
+92,0.3306,0.081,0.1491,"Faithful
+
+The summary accurately captures the key ",319,767
+93,0.4339,0.1021,0.1697,"Faithful
+
+The summary accurately captures the key ",363,438
+94,0.4644,0.1179,0.1816,"Faithful
+
+The summary accurately captures the key ",353,588
+95,0.5356,0.2216,0.2066,"Faithful
+
+The summary accurately captures the key ",392,684
+96,0.4809,0.125,0.173,"Faithful
+
+The summary accurately captures the key ",454,516
+97,0.5491,0.2284,0.2398,"Faithful
+
+The summary accurately captures the key ",589,425
+98,0.5427,0.1839,0.2186,"Faithful
+
+The summary accurately captures the key ",383,399
+99,0.5503,0.2278,0.2333,"Faithful
+
+The summary accurately captures the key ",420,575
