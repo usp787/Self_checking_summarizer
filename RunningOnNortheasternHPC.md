@@ -12,6 +12,11 @@ ssh explorer-01 # if you are not on 01 but have a tmux session there, hop to 01 
 srun -p courses-gpu --gres=gpu:1 --time=4:00:00 --mem=32GB --cpus-per-task=4 --pty /bin/bash
 ```
 
+## Convert a notebook to a Python script for easier execution on HPC
+```sh
+jupyter nbconvert --to python CS6140_final_baseline.ipynb
+```
+
 ## General commands for a new HPC session
 Do use `tmux` whenever you ask the HPC to run something for you, so that you can safely disconnect without killing your job.
 ```sh
