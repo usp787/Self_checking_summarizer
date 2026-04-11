@@ -8,6 +8,12 @@ ssh explorer-01 # if you are not on 01 but have a tmux session there, hop to 01 
 ```
 
 ## Requesting GPU resources on Northeastern HPC
+- Check gpus available on the cluster
+```sh
+sinfo -p gpu --Format=nodes,cpus,memory,features,statecompact,nodelist,gres
+sinfo -p courses-gpu --Format=nodes,cpus,memory,features,statecompact,nodelist,gres
+```
+- Request a GPU node with an interactive session (adjust time, memory, and CPU as needed)
 ```sh
 srun -p courses-gpu --gres=gpu:1 --time=4:00:00 --mem=32GB --cpus-per-task=4 --pty /bin/bash
 ```
