@@ -91,8 +91,8 @@ REFINE_TEMPERATURE = 0.3
 START_INDEX = 50
 END_INDEX = 100    
 # Embed the slice into the tags so different HPC nodes save to different checkpoint files natively!
-MR_TAG = f"mapreduce_qwen25_7b_hpc_h200_{START_INDEX}to{END_INDEX}"
-RF_TAG = f"refine_qwen25_7b_hpc_h200{START_INDEX}to{END_INDEX}"
+MR_TAG = f"mapreduce_qwen25_7b_hpc_{START_INDEX}to{END_INDEX}"
+RF_TAG = f"refine_qwen25_7b_hpc_{START_INDEX}to{END_INDEX}"
 
 RUN_MAPREDUCE = True
 RUN_REFINE = True
