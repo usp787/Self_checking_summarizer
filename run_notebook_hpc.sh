@@ -1,24 +1,21 @@
 #!/bin/bash
 
-# Check if a Python file was provided
+# Check if a notebook file was provided
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <python_script.py>"
+    echo "Usage: $0 <notebook.ipynb>"
     exit 1
 fi
 
-PYTHON_SCRIPT="$1"
+INPUT_NOTEBOOK="$1"
 
 # Check if the file exists
-if [ ! -f "$PYTHON_SCRIPT" ]; then
-    echo "Error: File '$PYTHON_SCRIPT' not found!"
+if [ ! -f "$INPUT_NOTEBOOK" ]; then
+    echo "Error: File '$INPUT_NOTEBOOK' not found!"
     exit 1
 fi
 
-# Ensure it's a .py file
-if [[ "$PYTHON_SCRIPT" != *.py ]]; then
-    echo "Error: File must be a Python script (.py)"
-    exit 1
-fi
+# Define the output python script name
+PYTHON_SCRIPT="${INPUT_NOTEBOOK%.ipynb}.py"
 
 echo "=========================================="
 echo " Setting up Northeastern HPC Environment"
@@ -36,6 +33,11 @@ module load explorer anaconda3/2024.06 cuda/12.1.1
 
 # Activate existing Python environment
 source activate "/scratch/$USER/6140_env"
+
+echo "=========================================="
+echo " Converting $INPUT_NOTEBOOK to Python"
+echo "=========================================="
+jupyter nbconvert --to python "$INPUT_NOTEBOOK"
 
 echo "=========================================="
 echo " Running $PYTHON_SCRIPT"
