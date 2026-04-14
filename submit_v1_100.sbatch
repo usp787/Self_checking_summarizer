@@ -2,7 +2,7 @@
 #SBATCH --job-name=cs6140_v1_100
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:a100:1
-#SBATCH --time=06:00:00
+#SBATCH --time=02:30:00
 #SBATCH --mem=32GB
 #SBATCH --output=slurm_v1_100_%j.out
 #SBATCH --error=slurm_v1_100_%j.err
