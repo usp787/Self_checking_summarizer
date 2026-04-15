@@ -12,8 +12,10 @@ Output: evaluation_plots.png
 
 import json
 import os
+import glob
+import re
+import csv
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import numpy as np
 
 # ── Load results ──────────────────────────────────────────────────────────────
@@ -27,30 +29,92 @@ def load_metrics(filename):
 
 baseline = load_metrics("baseline_qwen25_7b_a100_100samples_faithful_metrics_summary.json")
 
-# D&C results — update these filenames once pipeline results are saved
-# If not yet available, uses placeholder values from README
+def _parse_range_from_name(path):
+    name = os.path.basename(path)
+    m = re.search(r"_(\d+)to(\d+)_", name)
+    if not m:
+        return None
+    return int(m.group(1)), int(m.group(2))
+
+
+def _select_non_overlapping_ranges(ranges):
+    """
+    Prefer granular slice files and skip broad overlapping aggregate ranges
+    (e.g., keep 0-50, 50-100, ... and skip 0-400).
+    """
+    ordered = sorted(ranges, key=lambda x: (x[1] - x[0], x[0], x[1]))
+    selected = []
+    for r in ordered:
+        overlaps = any(not (r[1] <= s[0] or r[0] >= s[1]) for s in selected)
+        if not overlaps:
+            selected.append(r)
+    return sorted(selected)
+
+
+def load_dc_method_from_files(prefix):
+    """
+    Build method metrics from real experiment files in results/.
+    - ROUGE and lengths: aggregate per-sample CSVs, dedup by sample_id.
+    - BERTScore: weighted average from matching slice metrics_summary JSONs.
+    """
+    per_sample_glob = os.path.join(RESULTS_DIR, f"{prefix}_*to*_per_sample_metrics.csv")
+    per_sample_files = glob.glob(per_sample_glob)
+    if not per_sample_files:
+        raise FileNotFoundError(f"No per-sample files found for {prefix}")
+
+    ranges = [r for r in (_parse_range_from_name(p) for p in per_sample_files) if r is not None]
+    selected_ranges = _select_non_overlapping_ranges(ranges)
+    selected_files = [
+        os.path.join(RESULTS_DIR, f"{prefix}_{start}to{end}_per_sample_metrics.csv")
+        for start, end in selected_ranges
+        if os.path.exists(os.path.join(RESULTS_DIR, f"{prefix}_{start}to{end}_per_sample_metrics.csv"))
+    ]
+
+    # Deduplicate sample rows across files
+    sample_rows = {}
+    for file_path in selected_files:
+        with open(file_path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                sample_rows[int(row["sample_id"])] = row
+
+    if not sample_rows:
+        raise RuntimeError(f"No sample rows loaded for {prefix}")
+
+    rows = list(sample_rows.values())
+    rouge1 = np.array([float(r["rouge1_f1"]) for r in rows])
+    rouge2 = np.array([float(r["rouge2_f1"]) for r in rows])
+    rougeL = np.array([float(r["rougeL_f1"]) for r in rows])
+    gen_len = np.array([float(r["gen_length"]) for r in rows])
+
+    # Weighted mean BERTScore from selected summary files
+    bert_num = 0.0
+    bert_den = 0.0
+    for start, end in selected_ranges:
+        summary_path = os.path.join(RESULTS_DIR, f"{prefix}_{start}to{end}_metrics_summary.json")
+        if not os.path.exists(summary_path):
+            continue
+        summary = load_metrics(os.path.basename(summary_path))
+        n = int(summary.get("num_samples", 0))
+        bert = float(summary.get("bertscore_f1_mean", 0.0))
+        bert_num += bert * n
+        bert_den += n
+
+    if bert_den == 0:
+        raise RuntimeError(f"No metrics_summary files found for {prefix}")
+
+    return {
+        "rouge1_f1_mean": float(np.mean(rouge1)),
+        "rouge2_f1_mean": float(np.mean(rouge2)),
+        "rougeL_f1_mean": float(np.mean(rougeL)),
+        "bertscore_f1_mean": float(bert_num / bert_den),
+        "gen_length_mean": float(np.mean(gen_len)),
+    }
+
+
 dc_results = {
-    "MapReduce": {
-        "rouge1_f1_mean": 0.505,
-        "rouge2_f1_mean": 0.154,
-        "rougeL_f1_mean": 0.201,
-        "bertscore_f1_mean": 0.089,
-        "gen_length_mean": 487,
-    },
-    "Map-Refine": {
-        "rouge1_f1_mean": 0.5129,
-        "rouge2_f1_mean": 0.1696,
-        "rougeL_f1_mean": 0.2076,
-        "bertscore_f1_mean": 0.0918,
-        "gen_length_mean": 495,
-    },
-    "Map-Cluster-Reduce": {
-        "rouge1_f1_mean": 0.502,
-        "rouge2_f1_mean": 0.160,
-        "rougeL_f1_mean": 0.204,
-        "bertscore_f1_mean": 0.088,
-        "gen_length_mean": 490,
-    },
+    "MapReduce": load_dc_method_from_files("mapreduce_qwen25_7b_hpc"),
+    "Map-Refine": load_dc_method_from_files("refine_qwen25_7b_hpc"),
 }
 
 # ── Plot setup ────────────────────────────────────────────────────────────────
@@ -85,7 +149,7 @@ fig.suptitle(
 )
 
 methods   = ["Baseline"] + list(dc_results.keys())
-colors    = [GRAY, ACCENT, GREEN, PURPLE]
+colors    = [GRAY, ACCENT, GREEN]
 ref_len   = baseline["ref_length_mean"]
 
 # ── Helper: bar chart ─────────────────────────────────────────────────────────
