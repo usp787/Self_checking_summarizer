@@ -119,34 +119,28 @@ dc_results = {
 
 # ── Plot setup ────────────────────────────────────────────────────────────────
 
-DARK_BG   = "#12121e"
-CARD      = "#20202a"
-ACCENT    = "#2a7b9b"
-GREEN     = "#50b478"
-YELLOW    = "#fad23c"
-RED       = "#dc5050"
-PURPLE    = "#9664d2"
-GRAY      = "#a0a2af"
+FIG_BG    = "#ffffff"
+AX_BG     = "#ffffff"
+ACCENT    = "#00a6fb"
+GREEN     = "#38b000"
+YELLOW    = "#ffbe0b"
+PURPLE    = "#8338ec"
+GRAY      = "#6b7280"
+ORANGE    = "#fb5607"
 
 plt.rcParams.update({
-    "figure.facecolor":  DARK_BG,
-    "axes.facecolor":    CARD,
-    "axes.edgecolor":    "#333345",
-    "axes.labelcolor":   GRAY,
-    "axes.titlecolor":   "white",
-    "xtick.color":       GRAY,
-    "ytick.color":       GRAY,
-    "text.color":        "white",
+    "figure.facecolor":  FIG_BG,
+    "axes.facecolor":    AX_BG,
+    "axes.edgecolor":    "#d1d5db",
+    "axes.labelcolor":   "#111827",
+    "axes.titlecolor":   "#111827",
+    "xtick.color":       "#374151",
+    "ytick.color":       "#374151",
+    "text.color":        "#111827",
     "font.family":       "DejaVu Sans",
-    "grid.color":        "#2a2a3a",
-    "grid.linewidth":    0.6,
+    "grid.color":        "#e5e7eb",
+    "grid.linewidth":    0.8,
 })
-
-fig, axes = plt.subplots(1, 3, figsize=(16, 6))
-fig.suptitle(
-    "Self-Checking Summarizer — Baseline vs. Divide-and-Conquer Pipeline",
-    fontsize=15, fontweight="bold", color="white", y=1.02
-)
 
 methods   = ["Baseline"] + list(dc_results.keys())
 colors    = [GRAY, ACCENT, GREEN]
@@ -175,7 +169,7 @@ def bar_chart(ax, metric_key, title, ylabel, highlight_direction="up"):
         best_idx = int(np.argmin(values))
 
     bars[best_idx].set_edgecolor(YELLOW)
-    bars[best_idx].set_linewidth(2)
+    bars[best_idx].set_linewidth(4)
 
     ax.set_title(title, fontsize=12, fontweight="bold", pad=10)
     ax.set_ylabel(ylabel, fontsize=10)
@@ -188,69 +182,106 @@ def bar_chart(ax, metric_key, title, ylabel, highlight_direction="up"):
     ax.axhline(values[0], color=GRAY, linewidth=1, linestyle="--", alpha=0.5, zorder=2)
 
 
-# ── Plot 1: ROUGE scores ──────────────────────────────────────────────────────
+def draw_rouge_plot(ax):
+    metric_groups = {
+        "ROUGE-1": ("rouge1_f1_mean", "#ff7f11"),
+        "ROUGE-2": ("rouge2_f1_mean", "#e63946"),
+        "ROUGE-L": ("rougeL_f1_mean", "#00b4d8"),
+    }
 
-ax1 = axes[0]
-metric_groups = {
-    "ROUGE-1": ("rouge1_f1_mean", ACCENT),
-    "ROUGE-2": ("rouge2_f1_mean", PURPLE),
-    "ROUGE-L": ("rougeL_f1_mean", GREEN),
-}
+    x = np.arange(len(methods))
+    width = 0.22
 
-x = np.arange(len(methods))
-width = 0.22
+    for gi, (label, (key, color)) in enumerate(metric_groups.items()):
+        vals = [baseline[key]] + [dc_results[m][key] for m in dc_results]
+        offset = (gi - 1) * width
+        rects = ax.bar(x + offset, vals, width, label=label, color=color, alpha=0.9, zorder=3)
+        for rect, val in zip(rects, vals):
+            ax.text(
+                rect.get_x() + rect.get_width() / 2,
+                rect.get_height() + 0.003,
+                f"{val:.3f}",
+                ha="center", va="bottom", fontsize=7.5, color="#111827"
+            )
 
-for gi, (label, (key, color)) in enumerate(metric_groups.items()):
-    vals = [baseline[key]] + [dc_results[m][key] for m in dc_results]
-    offset = (gi - 1) * width
-    rects = ax1.bar(x + offset, vals, width, label=label, color=color, alpha=0.9, zorder=3)
-    for rect, val in zip(rects, vals):
-        ax1.text(
-            rect.get_x() + rect.get_width() / 2,
-            rect.get_height() + 0.003,
-            f"{val:.3f}",
-            ha="center", va="bottom", fontsize=7.5, color="white"
+    ax.set_xticks(x)
+    ax.set_xticklabels(methods, rotation=15, ha="right", fontsize=9)
+    label_bg = {
+        "Baseline": "#6b7280",      # gray
+        "MapReduce": "#2563eb",     # blue
+        "Map-Refine": "#16a34a",    # green
+    }
+    for tick in ax.get_xticklabels():
+        txt = tick.get_text()
+        tick.set_color("white")
+        tick.set_bbox({
+            "facecolor": label_bg.get(txt, "#374151"),
+            "edgecolor": "none",
+            "boxstyle": "round,pad=0.22",
+        })
+    ax.set_title("ROUGE Scores", fontsize=12, fontweight="bold", pad=10)
+    ax.set_ylabel("F1 Score", fontsize=10)
+    ax.set_ylim(0, 0.65)
+    ax.legend(fontsize=9, frameon=True, facecolor="white", edgecolor="#d1d5db")
+    ax.grid(axis="y", zorder=0)
+    ax.spines[["top", "right"]].set_visible(False)
+
+    # Grey baseline reference line for each ROUGE metric
+    ax.axhline(baseline["rouge1_f1_mean"], color=GRAY, linewidth=1.0, linestyle="--", alpha=0.45)
+    ax.axhline(baseline["rouge2_f1_mean"], color=GRAY, linewidth=1.0, linestyle=":", alpha=0.45)
+    ax.axhline(baseline["rougeL_f1_mean"], color=GRAY, linewidth=1.0, linestyle="-.", alpha=0.45)
+
+
+def draw_length_plot(ax):
+    gen_lengths = [baseline["gen_length_mean"]] + [dc_results[m]["gen_length_mean"] for m in dc_results]
+    coverage = [l / ref_len * 100 for l in gen_lengths]
+
+    bars = ax.bar(methods, coverage, color=colors, width=0.55, zorder=3)
+    best_idx = int(np.argmax(coverage))
+    bars[best_idx].set_edgecolor(YELLOW)
+    bars[best_idx].set_linewidth(4)
+
+    ax.axhline(
+        100,
+        color=ORANGE,
+        linewidth=1.6,
+        linestyle="--",
+        alpha=0.8,
+        zorder=2,
+        label=f"Reference (100%, {ref_len:.0f} words)",
+    )
+
+    for bar, cov, length in zip(bars, coverage, gen_lengths):
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            bar.get_height() + 0.8,
+            f"{cov:.1f}%\n({length:.0f}w)",
+            ha="center", va="bottom", fontsize=9, color="#111827", fontweight="bold"
         )
 
-ax1.set_xticks(x)
-ax1.set_xticklabels(methods, rotation=15, ha="right", fontsize=9)
-ax1.set_title("ROUGE Scores", fontsize=12, fontweight="bold", pad=10)
-ax1.set_ylabel("F1 Score", fontsize=10)
-ax1.set_ylim(0, 0.65)
-ax1.legend(fontsize=9, facecolor=CARD, edgecolor="#333345")
-ax1.grid(axis="y", zorder=0)
-ax1.spines[["top", "right"]].set_visible(False)
-ax1.axhline(baseline["rouge1_f1_mean"], color=GRAY, linewidth=0.8, linestyle="--", alpha=0.4)
+    ax.set_title("Length Coverage", fontsize=12, fontweight="bold", pad=10)
+    ax.set_ylabel("% of Reference Length", fontsize=10)
+    ax.set_ylim(0, 120)
+    ax.tick_params(axis="x", rotation=15, labelsize=9)
+    ax.legend(fontsize=9, frameon=True, facecolor="white", edgecolor="#d1d5db")
+    ax.grid(axis="y", zorder=0)
+    ax.spines[["top", "right"]].set_visible(False)
+
+
+fig, axes = plt.subplots(1, 3, figsize=(16, 6))
+fig.suptitle(
+    "Self-Checking Summarizer — Baseline vs. Divide-and-Conquer Pipeline",
+    fontsize=15, fontweight="bold", color="#111827", y=1.02
+)
+
+# ── Plot 1: ROUGE scores ──────────────────────────────────────────────────────
+draw_rouge_plot(axes[0])
 
 # ── Plot 2: BERTScore ─────────────────────────────────────────────────────────
-
 bar_chart(axes[1], "bertscore_f1_mean", "BERTScore F1", "F1 Score", "up")
 
 # ── Plot 3: Length coverage ───────────────────────────────────────────────────
-
-ax3 = axes[2]
-gen_lengths = [baseline["gen_length_mean"]] + [dc_results[m]["gen_length_mean"] for m in dc_results]
-coverage    = [l / ref_len * 100 for l in gen_lengths]
-
-bars3 = ax3.bar(methods, coverage, color=colors, width=0.55, zorder=3)
-ax3.axhline(100, color=YELLOW, linewidth=1.5, linestyle="--", alpha=0.7, zorder=2,
-            label=f"Reference (100%, {ref_len:.0f} words)")
-
-for bar, cov, length in zip(bars3, coverage, gen_lengths):
-    ax3.text(
-        bar.get_x() + bar.get_width() / 2,
-        bar.get_height() + 0.8,
-        f"{cov:.1f}%\n({length:.0f}w)",
-        ha="center", va="bottom", fontsize=9, color="white", fontweight="bold"
-    )
-
-ax3.set_title("Length Coverage", fontsize=12, fontweight="bold", pad=10)
-ax3.set_ylabel("% of Reference Length", fontsize=10)
-ax3.set_ylim(0, 120)
-ax3.tick_params(axis="x", rotation=15, labelsize=9)
-ax3.legend(fontsize=9, facecolor=CARD, edgecolor="#333345")
-ax3.grid(axis="y", zorder=0)
-ax3.spines[["top", "right"]].set_visible(False)
+draw_length_plot(axes[2])
 
 # ── Caption ───────────────────────────────────────────────────────────────────
 
@@ -258,11 +289,34 @@ fig.text(
     0.5, -0.04,
     "Yellow border = best performer per metric  |  Dashed line = baseline reference  |  "
     "D&C improves ROUGE-1, BERTScore, and length coverage; ROUGE-2/L trade off for paraphrase flexibility",
-    ha="center", fontsize=9, color=GRAY, style="italic"
+    ha="center", fontsize=9, color="#4b5563", style="italic"
 )
 
 plt.tight_layout()
 output_path = "evaluation_plots.png"
-plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=DARK_BG)
+plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=FIG_BG)
 print(f"Saved: {output_path}")
+
+# Standalone plots (3 additional files)
+fig_rouge, ax_rouge = plt.subplots(figsize=(8, 6))
+draw_rouge_plot(ax_rouge)
+fig_rouge.tight_layout()
+rouge_out = "evaluation_plot_rouge.png"
+fig_rouge.savefig(rouge_out, dpi=150, bbox_inches="tight", facecolor=FIG_BG)
+print(f"Saved: {rouge_out}")
+
+fig_bert, ax_bert = plt.subplots(figsize=(8, 6))
+bar_chart(ax_bert, "bertscore_f1_mean", "BERTScore F1", "F1 Score", "up")
+fig_bert.tight_layout()
+bert_out = "evaluation_plot_bertscore.png"
+fig_bert.savefig(bert_out, dpi=150, bbox_inches="tight", facecolor=FIG_BG)
+print(f"Saved: {bert_out}")
+
+fig_len, ax_len = plt.subplots(figsize=(8, 6))
+draw_length_plot(ax_len)
+fig_len.tight_layout()
+len_out = "evaluation_plot_length_coverage.png"
+fig_len.savefig(len_out, dpi=150, bbox_inches="tight", facecolor=FIG_BG)
+print(f"Saved: {len_out}")
+
 plt.show()
