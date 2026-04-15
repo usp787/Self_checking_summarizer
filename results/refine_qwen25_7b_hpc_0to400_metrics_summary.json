@@ -1,0 +1,15 @@
+{
+  "run_tag": "refine_qwen25_7b_hpc_0to400",
+  "timestamp": "2026-04-15T05:31:18.989971+00:00",
+  "num_samples": 400,
+  "chunk_size": 3000,
+  "chunk_overlap": 300,
+  "rouge1_f1_mean": 0.51289525,
+  "rouge2_f1_mean": 0.16956200000000002,
+  "rougeL_f1_mean": 0.20762400000000003,
+  "gen_length_mean": 495.02,
+  "ref_length_mean": 574.7725,
+  "bertscore_precision_mean": 0.057472575921565294,
+  "bertscore_recall_mean": 0.11570227984338999,
+  "bertscore_f1_mean": 0.08767782337963581
+}
