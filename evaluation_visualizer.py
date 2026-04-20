@@ -26,31 +26,10 @@ def load_metrics(filename):
         return json.load(f)
 
 baseline = load_metrics("baseline_qwen25_7b_a100_100samples_faithful_metrics_summary.json")
+refine   = load_metrics("refine_qwen25_7b_hpc_0to400_metrics_summary.json")
 
-# D&C results — update these filenames once pipeline results are saved
-# If not yet available, uses placeholder values from README
 dc_results = {
-    "MapReduce": {
-        "rouge1_f1_mean": 0.505,
-        "rouge2_f1_mean": 0.154,
-        "rougeL_f1_mean": 0.201,
-        "bertscore_f1_mean": 0.089,
-        "gen_length_mean": 487,
-    },
-    "Map-Refine": {
-        "rouge1_f1_mean": 0.5129,
-        "rouge2_f1_mean": 0.1696,
-        "rougeL_f1_mean": 0.2076,
-        "bertscore_f1_mean": 0.0918,
-        "gen_length_mean": 495,
-    },
-    "Map-Cluster-Reduce": {
-        "rouge1_f1_mean": 0.502,
-        "rouge2_f1_mean": 0.160,
-        "rougeL_f1_mean": 0.204,
-        "bertscore_f1_mean": 0.088,
-        "gen_length_mean": 490,
-    },
+    "Map-Refine": refine,
 }
 
 # ── Plot setup ────────────────────────────────────────────────────────────────
@@ -85,7 +64,7 @@ fig.suptitle(
 )
 
 methods   = ["Baseline"] + list(dc_results.keys())
-colors    = [GRAY, ACCENT, GREEN, PURPLE]
+colors    = [GRAY, GREEN]
 ref_len   = baseline["ref_length_mean"]
 
 # ── Helper: bar chart ─────────────────────────────────────────────────────────
@@ -134,7 +113,7 @@ metric_groups = {
 }
 
 x = np.arange(len(methods))
-width = 0.22
+width = 0.25
 
 for gi, (label, (key, color)) in enumerate(metric_groups.items()):
     vals = [baseline[key]] + [dc_results[m][key] for m in dc_results]
