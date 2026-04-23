@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import docx; print\\(docx.__version__\\)\")",
+      "Bash(python generate_background.py)"
+    ]
+  }
+}
